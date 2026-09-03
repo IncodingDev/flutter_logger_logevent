@@ -19,5 +19,12 @@ class LogEvent {
     DateTime? time,
     this.error,
     this.stackTrace,
-  }) : time = time ?? clock.now();
+  }) : time = time ?? clock.now() {
+    if (level == Level.all) {
+      throw ArgumentError('Log events cannot have Level.all');
+      // ignore: deprecated_member_use_from_same_package
+    } else if (level == Level.off || level == Level.nothing) {
+      throw ArgumentError('Log events cannot have Level.off');
+    }
+  }
 }

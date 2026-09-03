@@ -164,20 +164,20 @@ class Logger {
       throw ArgumentError('Logger has already been closed.');
     } else if (error != null && error is StackTrace) {
       throw ArgumentError('Error parameter cannot take a StackTrace!');
-    } else if (level == Level.all) {
-      throw ArgumentError('Log events cannot have Level.all');
-      // ignore: deprecated_member_use_from_same_package
-    } else if (level == Level.off || level == Level.nothing) {
-      throw ArgumentError('Log events cannot have Level.off');
     }
 
-    var logEvent = LogEvent(
+    var event = LogEvent(
       level,
       message,
       time: time,
       error: error,
       stackTrace: stackTrace,
     );
+
+    logEvent(event);
+  }
+
+  void logEvent(LogEvent logEvent) {
     for (var callback in _logCallbacks) {
       callback(logEvent);
     }
